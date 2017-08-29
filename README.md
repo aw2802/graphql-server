@@ -1,12 +1,12 @@
 # graphql-server
+[GraphQL](http://graphql.org/) server.
 
-Issues:
-
-Article I followed: https://edgecoders.com/graphql-learn-by-doing-part-2-of-3-4f02ae01d47d
-
-When I try passing in data from the API to graphiQL, there is an error about the field name.
-Looking at the wikiHow API, it looks like the attributes are just numbers which is what is giving
-an error when I put it in numbers under fields.
+### Technologies used
+    - [GraphQL](http://graphql.org/)
+    - [Sequelize](http://docs.sequelizejs.com/)
+    - [mySql 5.7](https://dev.mysql.com/doc/refman/5.7/en/)
+    - [Axios](https://www.npmjs.com/package/axios)
+    - [React Apollo](http://dev.apollodata.com/react/)
 
 ## Requirements
   - Node / npm
