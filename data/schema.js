@@ -5,7 +5,6 @@ import {
  GraphQLString,
  GraphQLList,
 } from 'graphql';
-import _ from 'lodash';
 
 import { fetchImagesByURL } from './wikiHow-api';
 import { fetchSubmissions } from './mysql-db';

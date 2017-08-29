@@ -8,10 +8,19 @@ When I try passing in data from the API to graphiQL, there is an error about the
 Looking at the wikiHow API, it looks like the attributes are just numbers which is what is giving
 an error when I put it in numbers under fields.
 
-Setup
+## Requirements
+  - Node / npm
+  - mySQL 5.7+
+  - internet connection
+      - wikiHow API requires connection
 
-`npm install`
+## Setup
 
-`npm start`
+1. Log into mysql and run the mysql file located in mysql/database.js
+`source <path to database.js>`
 
-Navigate to [http://localhost:8888/graphql](http://localhost:8888/graphql) to use the GraphiQL interface for testing.
+2. `npm install`
+
+3. `npm start`
+
+4. Navigate to [http://localhost:8888/graphql](http://localhost:8888/graphql) to use the GraphiQL interface for testing.
