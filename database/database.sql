@@ -22,10 +22,13 @@ CREATE TABLE `scores` (
     `streak`          INT           NOT NULL DEFAULT 0,
     `user_id`         INT           NOT NULL,
 
-    PRIMARY KEY (`id`),
-    INDEX (`user_id`),
-    FOREIGN KEY `user_id` REFERENCES `users`(`id`) ON DELETE CASCADE
+    PRIMARY KEY (`id`)
 ) ENGINE=INNODB;
+
+ALTER TABLE `scores`
+  ADD CONSTRAINT `score_user_id_FK`
+  FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)
+  ON DELETE CASCADE;
 
 DROP TABLE IF EXISTS `submissions`;
 CREATE TABLE `submissions` (
@@ -35,7 +38,10 @@ CREATE TABLE `submissions` (
     `scores`          INT           NOT NULL DEFAULT 0,
     `author_id`       INT           NOT NULL,
 
-    PRIMARY KEY(`id`),
-    INDEX (`author_id`),
-    FOREIGN KEY `author_id` REFERENCES `users`(`id`)
+    PRIMARY KEY(`id`)
 ) ENGINE=INNODB;
+
+ALTER TABLE `submissions`
+  ADD CONSTRAINT `submissions_author_id_FK`
+  FOREIGN KEY (`author_id`) REFERENCES `users`(`id`)
+  ON DELETE CASCADE;
