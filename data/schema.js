@@ -4,80 +4,58 @@ import {
  GraphQLInt,
  GraphQLString,
  GraphQLList,
- GraphQLNonNull,
- GraphQLID,
- GraphQLBoolean,
- GraphQLFloat
 } from 'graphql';
-import axios from 'axios';
 
-const ImageArrayType = new GraphQLObjectType({
- name: "ImageArray",
- description: "array of images",
- fields: () => ({
-   "image1": {type: GraphQLString},
-   "image2": {type: GraphQLString},
-   "image3": {type: GraphQLString},
-   "image4": {type: GraphQLString},
-	})
-});
+import { fetchImagesByURL } from './wikiHow-api';
 
-const query = new GraphQLObjectType({
-  name:"Query",
-  description: "WikiHow API image data",
-  fields: () =>({
-    images: {
-      type: ImageArrayType,
-      description:"array of wiki images",
-      args:{
-        number:{
-          type: new GraphQLNonNull(GraphQLInt),
-          description: "The number of images wanted",
-        },
-      },
-
-      resolve:(_, {number}) =>{
-        let config = {'X-Mashape-Key': 'ZF4AQocD2Cmsh9IU2WEtKtDHIYrjp16SwqzjsnqF9PbncTEYs7',
-             'Accept': 'application/json'
-        };
-        let url = `https://hargrimm-wikihow-v1.p.mashape.com/images?count=${number}`;
-        return axios.get(url, {headers: config})
-          .then(function(response) {
-          return response.data;
-        });
-
-      }
+/**
+  * custom GraphQL types
+  */
+const ImageType = new GraphQLObjectType({
+  name: 'ImageType',
+  description: 'Image object that provides wikiHow article associated with it and location.',
+  fields: () => ({
+    imageURL: {
+      type: GraphQLString,
+      description: "URL String for the image to display"
+    },
+    wikiURL: {
+      type: GraphQLString,
+      description: "URL for the wikiHow article associated with the Image"
+    },
+    title: {
+      type: GraphQLString,
+      description: "A String title for selection"
     }
-
   })
-
 });
 
-// const query = new GraphQLObjectType({
-//   name: "Query",
-//   description: "First GraphQL Server Config — Yay!",
-//   fields: () => ({
-//     gitHubUser: {
-//       type: UserInfoType,
-//       description: "GitHub user API data with enhanced and additional data",
-//       args: {
-//         username: {
-//           type: new GraphQLNonNull(GraphQLString),
-//           description: "The GitHub user login you want information on",
-//         },
-//       },
-//       resolve: (_,{username}) => {
-//         const url = `https://api.github.com/users/${username}`;
-//         return axios.get(url)
-//                     .then(function(response) {
-//                       return response.data;
-//                     });
-//       }
-//     },
-//   })
-// });
+/**
+  * Schema entry point: QueryType
+  */
+const QueryType = new GraphQLObjectType({
+  name: 'Query',
+  description: 'The root query for the schema',
+  fields: () => ({
+    image: {
+      type: ImageType,
+      resolve: (root, args) => fetchImagesByURL(`images`, 1),
+    },
+    images: {
+      type: new GraphQLList(ImageType),
+      args: {
+        count: { type: GraphQLInt },
+      },
+      resolve: (root, args) => fetchImagesByURL(`images`, args.count),
+    }
+  }),
+});
 
+/**
+  * schema declaration to call QueryType
+  */
 const schema = new GraphQLSchema({
- query
+ query: QueryType
 });
+
 export default schema;
