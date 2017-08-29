@@ -35,13 +35,18 @@ export function fetchImagesByURL(relativeURL, count) {
 
     // create an exception for images that don't follow the convention
     Object.keys(data).map((key) => {
+
       const imageURL = data[key];
       const tempTitle = getImageTitle(imageURL);
-      const wikiURL = WIKIHOW_URL + tempTitle;
 
-      const title = `How to ${decodeURI((tempTitle).replace(/-/g, " "))}`;
-
-      images.push({ imageURL, wikiURL, title });
+      // TODO: update to call for another image
+      if (tempTitle !== undefined && tempTitle !== '') {
+        images.push({
+          imageURL,
+          wikiURL: `${WIKIHOW_URL}${tempTitle}`,
+          title: `How to ${decodeURI((tempTitle).replace(/-/g, " "))}`
+        })
+      }
     });
 
     // return a single object or an list of objects
