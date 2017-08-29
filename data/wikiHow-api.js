@@ -4,6 +4,7 @@ import axios from 'axios';
   * constant variables
   */
 const WIKIHOW_API_BASE_URL = 'https://hargrimm-wikihow-v1.p.mashape.com/';
+const IMAGE_API_ENDPOINT = 'images';
 const WIKIHOW_URL = 'http://www.wikihow.com/';
 const WIKIHOW_CONFIG = {
   'X-Mashape-Key': 'ZF4AQocD2Cmsh9IU2WEtKtDHIYrjp16SwqzjsnqF9PbncTEYs7',
@@ -25,9 +26,9 @@ function getImageTitle(urlString) {
   * public function that fetches url and then transforms the data into
   * a readable object
   */
-export function fetchImagesByURL(relativeURL, count) {
+export function fetchImagesByURL(count) {
   return axios.get(
-    `${WIKIHOW_API_BASE_URL}${relativeURL}?count=${count}`,
+    `${WIKIHOW_API_BASE_URL}${IMAGE_API_ENDPOINT}?count=${count}`,
     { headers: WIKIHOW_CONFIG }
   ).then(res => {
     const data = res.data;

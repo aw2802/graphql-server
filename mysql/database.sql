@@ -9,8 +9,9 @@ CREATE TABLE `users` (
     `username`        VARCHAR(20)   NOT NULL,
     -- update password, use bcyrpt to encrypt
     `password`        VARCHAR(40)   NOT NULL,
-    `date_created`    DATETIME      NOT NULL,
-
+    `email`           VARCHAR(50)   NOT NULL,
+    `createdAt`      DATETIME      NOT NULL,
+    `updatedAt`      DATETIME      NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=INNODB;
 
@@ -20,8 +21,9 @@ CREATE TABLE `scores` (
     `total_correct`   INT           NOT NULL DEFAULT 0,
     `num_games`       INT           NOT NULL DEFAULT 0,
     `streak`          INT           NOT NULL DEFAULT 0,
-    `user_id`         INT           NOT NULL,
-
+    `user_id`         INT           NOT NULL UNIQUE,
+    `created_at`      DATETIME      NOT NULL,
+    `updated_at`      DATETIME      NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=INNODB;
 
@@ -33,11 +35,12 @@ ALTER TABLE `scores`
 DROP TABLE IF EXISTS `submissions`;
 CREATE TABLE `submissions` (
     `id`              INT           NOT NULL AUTO_INCREMENT,
-    `title`           VARCHAR(250)  NOT NULL,
+    `title`           VARCHAR(255)  NOT NULL,
     `image_url`       VARCHAR(255)  NOT NULL,
-    `scores`          INT           NOT NULL DEFAULT 0,
+    `score`          INT           NOT NULL DEFAULT 0,
     `author_id`       INT           NOT NULL,
-
+    `createdAt`      DATETIME      NOT NULL,
+    `updatedAt`      DATETIME      NOT NULL,
     PRIMARY KEY(`id`)
 ) ENGINE=INNODB;
 
