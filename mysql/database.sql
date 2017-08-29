@@ -22,8 +22,8 @@ CREATE TABLE `scores` (
     `num_games`       INT           NOT NULL DEFAULT 0,
     `streak`          INT           NOT NULL DEFAULT 0,
     `user_id`         INT           NOT NULL UNIQUE,
-    `created_at`      DATETIME      NOT NULL,
-    `updated_at`      DATETIME      NOT NULL,
+    `createdAt`      DATETIME      NOT NULL,
+    `updatedAt`      DATETIME      NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=INNODB;
 
