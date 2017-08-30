@@ -6,7 +6,7 @@ USE `wikiwhat`;
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `users` (
     `id`              INT           NOT NULL AUTO_INCREMENT,
-    `username`        VARCHAR(20)   NOT NULL,
+    `username`        VARCHAR(20)   NOT NULL UNIQUE,
     -- update password, use bcyrpt to encrypt
     `password`        VARCHAR(40)   NOT NULL,
     `email`           VARCHAR(50)   NOT NULL,
