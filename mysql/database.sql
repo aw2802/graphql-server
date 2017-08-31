@@ -48,3 +48,6 @@ ALTER TABLE `submissions`
   ADD CONSTRAINT `submissions_author_id_FK`
   FOREIGN KEY (`author_id`) REFERENCES `users`(`id`)
   ON DELETE CASCADE;
+
+  INSERT INTO `users` (`username`, `password`, `email`, `createdAt`, `updatedAt`)
+  VALUES ('test', 'test12345', 'test@gmail.com', NOW(), NOW());

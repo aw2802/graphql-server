@@ -102,6 +102,16 @@ const QueryType = new GraphQLObjectType({
       },
       resolve: (root, args) => fetchImagesByURL(args.count),
     },
+    login: {
+      type: UserType,
+      args: {
+        username: { type: GraphQLString },
+        password: { type: GraphQLString }
+      },
+      resolve: (root, args) => {
+        return UserModel.findOne({ where: args });
+      }
+    },
     user: {
       type: UserType,
       args: {

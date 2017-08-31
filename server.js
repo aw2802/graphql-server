@@ -5,9 +5,15 @@ import schema from './data/schema';
 const app = express();
 const PORT = 8888;
 
-app.use("/GraphQL", GraphQLHTTP({
+var corsOptions = {
+  origin: 'http://localhost:3000',
+  credentials: false
+};
+app.use(cors(corsOptions));
+
+app.use("/graphql", GraphQLHTTP({
     schema,
-    graphiql: true
+    graphiql: true,
   })
 );
 
