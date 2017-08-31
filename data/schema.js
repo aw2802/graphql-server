@@ -12,7 +12,6 @@ import { fetchSubmissions } from './mysql-db';
 import UserModel from './model/user-model';
 import ScoreModel from './model/score-model';
 
-
 /**
   * custom GraphQL types
   */

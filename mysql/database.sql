@@ -10,8 +10,8 @@ CREATE TABLE `users` (
     -- update password, use bcyrpt to encrypt
     `password`        VARCHAR(40)   NOT NULL,
     `email`           VARCHAR(50)   NOT NULL,
-    `createdAt`      DATETIME      NOT NULL,
-    `updatedAt`      DATETIME      NOT NULL,
+    `createdAt`       DATETIME      NOT NULL,
+    `updatedAt`       DATETIME      NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=INNODB;
 

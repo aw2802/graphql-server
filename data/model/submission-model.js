@@ -24,15 +24,12 @@ const SubmissionModel = db.define('submission', {
   },
   author_id: {
     type: Sequelize.INTEGER,
+    name: 'submissions_author_id_FK',
     references: {
       model: UserModel,
       key: 'id'
     }
   },
 });
-
-// SubmissionModel.hasOne(UserModel, {
-//   foreignKey: 'author_id'
-// });
 
 export default SubmissionModel;

@@ -26,15 +26,12 @@ const ScoreModel = db.define('score', {
   },
   user_id: {
     type: Sequelize.INTEGER,
+    name: 'score_user_id_FK',
     references: {
       model: UserModel,
       key: 'id'
     }
   },
 });
-
-// ScoreModel.hasOne(UserModel, {
-//   foreignKey: 'id'
-// });
 
 export default ScoreModel;

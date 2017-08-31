@@ -23,8 +23,4 @@ const UserModel = db.define('user', {
   },
 });
 
-// UserModel.hasMany(SubmissionModel, {
-//   foreignKey: 'author_id'
-// });
-
 export default UserModel;
