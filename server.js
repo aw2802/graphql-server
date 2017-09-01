@@ -1,6 +1,7 @@
 import express from 'express';
 import GraphQLHTTP from 'express-graphql';
 import schema from './data/schema';
+import cors from 'cors';
 
 const app = express();
 const PORT = 8888;
