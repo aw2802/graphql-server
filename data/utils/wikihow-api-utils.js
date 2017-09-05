@@ -45,7 +45,7 @@ export function fetchImagesByURL(count) {
         images.push({
           imageURL,
           wikiURL: `${WIKIHOW_URL}${tempTitle}`,
-          title: `How to ${decodeURI((tempTitle).replace(/-/g, " "))}`
+          title: `How to ${decodeURIComponent((tempTitle).replace(/-/g, " "))}`
         })
       }
     });

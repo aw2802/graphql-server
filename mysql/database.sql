@@ -9,7 +9,6 @@ CREATE TABLE `users` (
     `username`        VARCHAR(20)   NOT NULL UNIQUE,
     -- update password, use bcyrpt to encrypt
     `password`        VARCHAR(40)   NOT NULL,
-    `email`           VARCHAR(50)   NOT NULL,
     `createdAt`       DATETIME      NOT NULL,
     `updatedAt`       DATETIME      NOT NULL,
     PRIMARY KEY (`id`)
@@ -49,5 +48,5 @@ ALTER TABLE `submissions`
   FOREIGN KEY (`author_id`) REFERENCES `users`(`id`)
   ON DELETE CASCADE;
 
-  INSERT INTO `users` (`username`, `password`, `email`, `createdAt`, `updatedAt`)
-  VALUES ('test', 'test12345', 'test@gmail.com', NOW(), NOW());
+  INSERT INTO `users` (`username`, `password`, `createdAt`, `updatedAt`)
+  VALUES ('test', 'test12345', NOW(), NOW());
