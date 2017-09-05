@@ -8,7 +8,7 @@ import {
 import { GraphQLDateTime } from 'graphql-iso-date';
 
 import { fetchImagesByURL } from './utils/wikihow-api-utils';
-import { fetchSubmissions, registerUser } from './utils/mysql-utils';
+import { fetchSubmissions, registerUser, updateScoring } from './utils/mysql-utils';
 import {
   UserType,
   ImageType,
@@ -86,9 +86,9 @@ const MutationRoot = new GraphQLObjectType({
       resolve: (root, args) => registerUser(args)
     },
     updateScoring: {
-      type: UserType,
+      type: ScoreType,
       args: {
-        id: { type: GraphQLInt },
+        user_id: { type: GraphQLInt },
         streak: {
           type: GraphQLInt,
           defaultValue: 0
@@ -102,7 +102,7 @@ const MutationRoot = new GraphQLObjectType({
           defaultValue: 0
         }
       },
-      resolve: (root, args) => registerUser(args)
+      resolve: (root, args) => updateScoring(args)
     }
   }),
 });

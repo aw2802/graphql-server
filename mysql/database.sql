@@ -17,9 +17,9 @@ CREATE TABLE `users` (
 DROP TABLE IF EXISTS `scores`;
 CREATE TABLE `scores` (
     `id`              INT           NOT NULL AUTO_INCREMENT,
-    `total_correct`   INT           NOT NULL DEFAULT 0,
-    `num_games`       INT           NOT NULL DEFAULT 0,
-    `streak`          INT           NOT NULL DEFAULT 0,
+    `total_correct`   INT           DEFAULT 0,
+    `num_games`       INT           DEFAULT 0,
+    `streak`          INT           DEFAULT 0,
     `user_id`         INT           NOT NULL UNIQUE,
     `createdAt`      DATETIME      NOT NULL,
     `updatedAt`      DATETIME      NOT NULL,
@@ -36,7 +36,7 @@ CREATE TABLE `submissions` (
     `id`              INT           NOT NULL AUTO_INCREMENT,
     `title`           VARCHAR(255)  NOT NULL,
     `image_url`       VARCHAR(255)  NOT NULL,
-    `score`          INT           NOT NULL DEFAULT 0,
+    `score`           INT           NOT NULL DEFAULT 0,
     `author_id`       INT           NOT NULL,
     `createdAt`      DATETIME      NOT NULL,
     `updatedAt`      DATETIME      NOT NULL,
