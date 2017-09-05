@@ -35,25 +35,23 @@ export function registerUser(args) {
     updatedAt: currentDate
   };
 
-  return UserModel.create(newUser);
+  return db.transaction(function (t) {
+    return UserModel.findOne({ where: { username } }, {transaction: t})
+      .then((user) => {
+        if (user !== null ){
+          throw new Error('Username is already in use. Please try a new one');
+        }
 
-  // return db.sequelize.transaction((transcation) => {
-  //   return UserModel.findOne({ where: { username } })
-  //     .then((user) => {
-  //       if (user !== null ){
-  //         throw new Error('Username is already in use. Please try a new one');
-  //       }
-  //
-  //       const newUser = {
-  //         username,
-  //         password,
-  //         createdAt: currentDate,
-  //         updatedAt: currentDate
-  //       };
-  //
-  //       return UserModel.create(newUser, transcation);
-  //     })
-  // })
-  //   .then((user) => user )
-  //   .catch((error) => error);
+        const newUser = {
+          username,
+          password,
+          createdAt: currentDate,
+          updatedAt: currentDate
+        };
+
+        return UserModel.create(newUser, { transcation: t });
+      })
+  })
+    .then((user) => user )
+    .catch((error) => error);
 }

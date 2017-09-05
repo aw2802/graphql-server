@@ -22,7 +22,7 @@ import ScoreModel from './model/score-model';
 /**
   * Schema entry point: QueryType
   */
-const QueryType = new GraphQLObjectType({
+const QueryRoot = new GraphQLObjectType({
   name: 'Query',
   description: 'The root object to query for data',
   fields: () => ({
@@ -50,25 +50,15 @@ const QueryType = new GraphQLObjectType({
     user: {
       type: UserType,
       args: {
-        id: { type: GraphQLInt }
+        id: { type: GraphQLInt },
       },
       resolve: (root, args) => {
         return UserModel.find({ where: args });
       }
     },
-    score: {
-      type: ScoreType,
-      args: {
-        user_id: { type: GraphQLInt }
-      },
-      resolve: (root, args) => {
-        return ScoreModel.find({ where: args });
-      }
-    },
-    userSubmissions: {
+    submissions: {
       type: SubmissionType,
       args: {
-        author_id: { type: GraphQLInt },
         count: {
           type: GraphQLInt,
           defaultValue: 1
@@ -79,22 +69,11 @@ const QueryType = new GraphQLObjectType({
         }
       },
       resolve: (root, args) => fetchSubmissions(args),
-    },
-    submissions: {
-      type: new GraphQLList(SubmissionType),
-      args: {
-        count: { type: GraphQLInt },
-        offset: {
-          type: GraphQLInt,
-          defaultValue: 0
-        }
-      },
-      resolve: (root, args) => fetchSubmissions(args),
     }
   }),
 });
 
-const MutationType = new GraphQLObjectType({
+const MutationRoot = new GraphQLObjectType({
   name: 'Mutation',
   description: 'The root object to save data to the database',
   fields: () => ({
@@ -105,6 +84,25 @@ const MutationType = new GraphQLObjectType({
         password: { type: GraphQLString },
       },
       resolve: (root, args) => registerUser(args)
+    },
+    updateScoring: {
+      type: UserType,
+      args: {
+        id: { type: GraphQLInt },
+        streak: {
+          type: GraphQLInt,
+          defaultValue: 0
+        },
+        num_games: {
+          type: GraphQLInt,
+          defaultValue: 0
+        },
+        total_correct: {
+          type: GraphQLInt,
+          defaultValue: 0
+        }
+      },
+      resolve: (root, args) => registerUser(args)
     }
   }),
 });
@@ -113,8 +111,8 @@ const MutationType = new GraphQLObjectType({
   * schema declaration to call QueryType
   */
 const schema = new GraphQLSchema({
- query: QueryType,
- mutation: MutationType
+ query: QueryRoot,
+ mutation: MutationRoot
 });
 
 export default schema;

@@ -2,8 +2,10 @@ import {
  GraphQLSchema,
  GraphQLObjectType,
  GraphQLInt,
- GraphQLString
+ GraphQLString,
+ GraphQLList
 } from 'graphql';
+// import joinMonster from 'join-monster';
 
 /**
   * custom GraphQL types
@@ -31,6 +33,22 @@ export const UserType = new GraphQLObjectType({
     id: { type: GraphQLInt },
     username: { type: GraphQLString },
     password: { type: GraphQLString },
+    score: {
+      description: "The score associated with a user",
+      type: new GraphQLList(ScoreType),
+      sqlBatch: {
+        thisKey: 'user_id',
+        parentKey: 'id'
+      }
+    },
+    submissions: {
+      description: "The submissions associated with a user",
+      type: new GraphQLList(SubmissionType),
+      sqlBatch: {
+        thisKey: 'author_id',
+        parentKey: 'id'
+      }
+    },
   })
 });
 
