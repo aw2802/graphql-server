@@ -38,7 +38,6 @@
 
 This is a brief guide to the basics of GraphQL in conjunction with Apollo. For more in depth actions and code, please refer to the documentation.
 
-
 ##Contents
 
 1. [Writing GraphQL Queries](#writing-graphql-queries)
