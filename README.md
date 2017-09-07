@@ -71,11 +71,11 @@ query {
 }
 ```
 
-Typically in the query, a type is defined (`query` or `mutation`) to indicate operation to be performed. Then a field (`user` in the example) is defined to indicate which set of data is to be retrieved or manipulated. In the example above, a user object would be returned
+Typically in the query, a statement is defined (`query` or `mutation`) to indicate operation to be performed. Then a field (`user` in the example) is defined to indicate which set of data is to be retrieved or manipulated. In the example above, a user object would be returned.
 
 The parenthesis contains any arguments that are supposed to be provided. In this case it's `id: <id_int>`.
 
-Lastly, the statement must define what information we want to retrieve. In this case id, username, and last_login *only* get returned. 
+Lastly, the statement must define what information we want to retrieve. Id, username, and last_login would *only* get returned regardless if any other information is assoicated with the field (`user`).
 
 The GraphQL response would look like this:
 
@@ -112,7 +112,7 @@ query Submissions {
 }
 ```
 
-In the example above, the query now has a "Submission" alias that can be accessed by writing `this.props.submissions` instead of "this.props.data.submissions". Aliases do not need to match the field name.
+In the example above, the query now has a "Submission" alias that can be accessed by writing `this.props.submissions` instead of "this.props.data.submissions". Aliases do not need to match the field name (`submissions`).
 
 [⇧ Back to top](#contents)
 
@@ -195,7 +195,7 @@ In return, the response given back would look like:
 
 ### Mutation Statements
 
-Mutation statements in GraphQL are not that much different than a query statement. The difference is the `mutation` type and that variables are almost always passed in. An example of a mutation is outlined before.
+Mutation statements in GraphQL are not that much different than a query statement. The difference is the `mutation` keyword and that variables are almost always passed in. An example of a mutation is outlined before.
 
 ```sql
   mutation createUserSubmission($author_id: Int!, $title: String!, $short_desc: String!, $upvote: Int = 0, $downvote: Int = 0) {
@@ -220,3 +220,22 @@ If you are confused about the different variables (i.e. `short_desc: String!`) p
 &nbsp; <!--extra spacing-->
 &nbsp; <!--extra spacing-->
 
+## 2. Defining Schema
+In order to use graphQL, a schema must be defined for queries and mutations to be called. 
+
+The `schema.js` must at least have: 
+
+```javscript
+const schema = new GraphQLSchema({
+ query: QueryRoot,
+ mutation: MutationRoot
+});
+
+export default schema;
+```
+
+`QueryRoot` and `MutationRoot` are two schemas needed to define in order to fetch, insert, and alter information.
+
+You'll notice that we have `QueryRoot` and `MutationRoot` which are two schemas you'll need to define in order to 
+
+Remember, `query` in graphQL is for retrieving data whereas `mutation` is for manipulating data. The syntax for both is the same when constructing GraphQL.
