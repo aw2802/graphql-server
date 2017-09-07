@@ -63,11 +63,11 @@ A typical GraphQL `query` statement looks like this:
 
 ```sql
 query {
-	user(id: 902) {
-		id
-		username
-		last_login
-	}
+  user(id: "902") {
+    id
+    username
+    last_login
+  }
 }
 ```
 
@@ -82,11 +82,12 @@ The GraphQL response would look like this:
 ```sql
 {
   "data": {
-	"user": {
+    "user": {
       "id": "902",
       "username": "jsnow"
       "last_login": "2017-09-07T03:43:17+00:00"
-  	}
+    }
+  }
 }
 ```
 
@@ -101,13 +102,13 @@ Queries can be named to help differentiate from multiple queries (multiple queri
 
 ```sql
 query Submissions {
-	submissions(limit: "3", offset: "5") {
-		id
-		title
-		description
-		upvotes
-		downvotes
-	}
+  submissions(limit: "3", offset: "5") {
+    id
+    title
+    description
+    upvotes
+    downvotes
+  }
 }
 ```
 
@@ -123,13 +124,13 @@ Variables can be used to type check and pass in values that may change. Variable
 
 ```sql
 query Submissions($limit: Int = 1, $offset: Int) {
-	submissions(limit: $limit, offset: $offset) {
-		id
-		title
-		description
-		upvotes
-		downvotes
-	}
+  submissions(limit: $limit, offset: $offset) {
+    id
+    title
+    description
+    upvotes
+    downvotes
+  }
 }
 ```
 In the example above, we set a default value of `limit` to be 1 if no value is passed in. The value can only be an int. Offset on the other hand doesn't have a value. All of these values are optional.
@@ -148,15 +149,15 @@ It is possible to query multiple tables in a database in GraphQL. The schema for
 
 ```sql
 query userSubmissions {
-	user(id: "902") {
-		id
-		first_name
-		last_name
-		submissions(limit: "3") {
-			title
-			short_description
-		}
-	}
+  user(id: "902") {
+    id
+    first_name
+    last_name
+    submissions(limit: "3") {
+      title
+      short_description
+    }
+  }
 }
 ```
 
@@ -164,27 +165,27 @@ In return, the response given back would look like:
 
 ```sql
 {
-	"data" {
-		"user" {
-			"id": "902"
-			"firstname": "John"
-			"lastname": "Snow"
-			"submissions": [
-				{
-					"title": "Do I really no nothing?"
-					"short_description": "An exploration on past decisions I've made and whether I really, truly know nothing."
-				},
-				{
-					"title": "My father, Ned Stark"
-					"short_description": "An in depth look at the man who raised me in the Stark household."
-				},
-				{
-					"title": "Night's Watch: An Honorable Vow"
-					"short_description": "Why any men should take the black."
-				},
-			}
-		}
-	}
+  "data" {
+    "user" {
+      "id": "902"
+      "firstname": "John"
+      "lastname": "Snow"
+      "submissions": [
+        {
+          "title": "Do I really no nothing?"
+          "short_description": "An exploration on past decisions I've made and whether I really, truly know nothing."
+        },
+        {
+          "title": "My father, Ned Stark"
+          "short_description": "An in depth look at the man who raised me in the Stark household."
+        },
+        {
+          "title": "Night's Watch: An Honorable Vow"
+          "short_description": "Why any men should take the black."
+        },
+      ]
+    }
+  }
 }
 ```
 
@@ -192,30 +193,4 @@ In return, the response given back would look like:
 
 &nbsp; <!--extra spacing-->
 
-### Mutation Statements
-
-Mutation statements in GraphQL are not that much different than a query statement. The difference is the `mutation` type and that variables are almost always passed in. An example of a mutation is outlined before.
-
-```sql
-	mutation createUserSubmission($author_id: Int!, $title: String!, $short_desc: String!, $upvote: Int = 0, $downvote: Int = 0) {
-		createSubmission(author_id: $author_id, title: $title, $short_description: $short_desc ) {
-			id
-			title
-			short_description
-			author {
-				first_name
-				last_name
-			}
-		}
-	}
-```
-
-If you are confused about using `createUserSubmission` please refer to the [Aliases](#aliases) section.
-
-If you are confused about the different variables (i.e. `short_desc: String!`) please refer to the [Variables](#variables) section.
-
-[⇧ Back to top](#contents)
-
-&nbsp; <!--extra spacing-->
-&nbsp; <!--extra spacing-->
 
