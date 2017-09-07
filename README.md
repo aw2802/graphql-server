@@ -61,7 +61,7 @@ GraphQL follows a very specific structure that is pretty easy to pick up. The st
 
 A typical GraphQL `query` statement looks like this:
 
-``````json
+```json
 query {
   user(id: "902") {
     id
