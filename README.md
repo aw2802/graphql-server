@@ -39,7 +39,7 @@
 This is a brief guide to the basics of GraphQL in conjunction with Apollo. For more in depth actions and code, please refer to the documentation.
 
 
-###Contents
+##Contents
 
 1. [Writing GraphQL Queries](#writing-graphql-queries)
 	* 	[Query Statements](#query-statements)
@@ -218,21 +218,5 @@ If you are confused about the different variables (i.e. `short_desc: String!`) p
 [⇧ Back to top](#contents)
 
 &nbsp; <!--extra spacing-->
+&nbsp; <!--extra spacing-->
 
-## 2. Defining Schema
-In order to use graphQL, a schema must be defined for queries and mutations to be called. 
-
-In the `schema.js` file we have: 
-
-```javscript
-const schema = new GraphQLSchema({
- query: QueryRoot,
- mutation: MutationRoot
-});
-
-export default schema;
-```
-
-You'll notice that we have `QueryRoot` and `MutationRoot` which are two schemas you'll need to define in order to 
-
-Remember, `query` in graphQL is for retrieving data whereas `mutation` is for manipulating data. The syntax for both is the same when constructing GraphQL.
