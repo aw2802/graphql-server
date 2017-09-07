@@ -61,7 +61,7 @@ GraphQL follows a very specific structure that is pretty easy to pick up. The st
 
 A typical GraphQL `query` statement looks like this:
 
-```json
+```sql
 query {
   user(id: "902") {
     id
@@ -79,7 +79,7 @@ Lastly, the statement must define what information we want to retrieve. In this 
 
 The GraphQL response would look like this:
 
-```json
+```sql
 {
   "data": {
     "user": {
@@ -100,7 +100,7 @@ On the client side, the returned response is held in `props` under the default `
 ### Aliases            
 Queries can be named to help differentiate from multiple queries (multiple queries are not required for aliases).
 
-```json
+```sql
 query Submissions {
   submissions(limit: "3", offset: "5") {
     id
@@ -122,7 +122,7 @@ In the example above, the query now has a "Submission" alias that can be accesse
 
 Variables can be used to type check and pass in values that may change. Variables can have a default value and be marked as required or optional. 
 
-```json
+```sql
 query Submissions($limit: Int = 1, $offset: Int) {
   submissions(limit: $limit, offset: $offset) {
     id
@@ -147,7 +147,7 @@ If a limit was always required to be passed in, the syntax would look like: `$li
 
 It is possible to query multiple tables in a database in GraphQL. The schema for the table must be able to return an associated object (more on this [here]()). If a program required retrieving a user and the last three submissions associated with the user, the query would look like:
 
-```json
+```sql
 query userSubmissions {
   user(id: "902") {
     id
@@ -163,7 +163,7 @@ query userSubmissions {
 
 In return, the response given back would look like:
 
-```json
+```sql
 {
   "data" {
     "user" {
@@ -197,7 +197,7 @@ In return, the response given back would look like:
 
 Mutation statements in GraphQL are not that much different than a query statement. The difference is the `mutation` type and that variables are almost always passed in. An example of a mutation is outlined before.
 
-```json
+```sql
   mutation createUserSubmission($author_id: Int!, $title: String!, $short_desc: String!, $upvote: Int = 0, $downvote: Int = 0) {
     createSubmission(author_id: $author_id, title: $title, $short_description: $short_desc ) {
       id
