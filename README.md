@@ -54,7 +54,7 @@ This is a brief guide to the basics of GraphQL in conjunction with Apollo. For m
 
 ## 1. Writing GraphQL Queries
 
-GraphQL follows a very specific structure that is pretty easy to pick up. The structure is the same for mutations and queries. The only difference is that the use of the `mutation` keyword signifies that the statement will be manipulating the data whereas the `query` keyword will be simply fetching the data.
+GraphQL follows a very specific structure that is pretty easy to pick up. The structure is the same for mutations and queries. The only difference is the use of the `mutation` keyword signifies the statement will be manipulating the data whereas the `query` keyword will be simply fetching the data.
 
 
 ### Query Statements
