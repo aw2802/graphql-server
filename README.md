@@ -8,23 +8,6 @@
   * [Axios](https://www.npmjs.com/package/axios)
   * [React Apollo](http://dev.apollodata.com/react/)
 
-### Requirements
-  * Node / npm
-  * mySQL 5.7+
-  * internet connection
-      * wikiHow API requires connection
-
-### Setup for GraphQL-Server
-
-1. Log into mysql and run the mysql file located in mysql/database.js
-`source <path to database.js>`
-
-2. `npm install`
-
-3. `npm start`
-
-4. Navigate to [http://localhost:8888/graphql](http://localhost:8888/graphql) to use the GraphiQL interface for testing.
-
 # GraphQL Advantages and Disadvantages
 
 ## Advantages
@@ -51,13 +34,15 @@
 * Adds complexity
 	* It's easier to get denial of service attacks with GraphQL with overly complex queries that consumes all resources of the server. With GraphQL it is very easy to query for deep nested relationships such as user -> friends -> friends -> etc. 
 * File uploads are nonexistent
+	* There is no existing capablity to pass the file as an argument.
+	* Must use REST endpoints (or other means) and separate this functionality from GraphQL 
 
 &nbsp; <!--extra spacing-->
 &nbsp; <!--extra spacing-->
 
 # Guide to GraphQL (Code Examples)
 
-This is a brief guide to the basics of GraphQL in conjunction with Apollo. For more in depth actions and code, please refer to the documentation.
+This is a brief(ish) guide to the basics of GraphQL in conjunction with Apollo. For more in depth actions and code, please refer to the documentation.
 
 ### Contents
 
@@ -67,16 +52,23 @@ This is a brief guide to the basics of GraphQL in conjunction with Apollo. For m
 	* 	[Variables](#variables)
 	*  [Nested Queries (Joins)](#nested-queries-(joins)) 
 	*  [Mutation Statements](#mutation-statements)
-2. [Defining Schema](#defining-schema)
-3. 
+2. [GraphQL Server](#graphql-server) 
+	* [Defining Schema](#defining-schema)
+	* [Defining Types](#defining-types)
+	* [Defining Resolvers](#defining-resolvers)
+		* [Query Resolvers](#query-resolvers)
+		* [Query Resolvers](#mutation-resolvers)
+3. [Client Side Code](#client-side-code)
+4. [References](#references)
 
 &nbsp; <!--extra spacing-->
 
 
-## 1. Writing GraphQL Queries
+## 1. Writing GraphQL Statements
 
 GraphQL follows a very specific structure that is pretty easy to pick up. The structure is the same for mutations and queries. The only difference is the use of the `mutation` keyword signifies the statement will be manipulating the data whereas the `query` keyword will be simply fetching the data.
 
+GraphQL statements are used client side and are received by the GraphQL server. The Client side uses two main libraries: `graphql` and `apollo-react`.
 
 ### Query Statements
 
@@ -112,7 +104,7 @@ The GraphQL response would look like this:
 }
 ```
 
-On the client side, the returned response is held in `props` under the default `data` object. The user object can be retrieved by writing: `this.props.data.user`.
+On the client side, a Higher Order Component is created when using graphql(). This HOC creates a data object under the props as a default.  The user object can be retrieved by writing: `this.props.data.user`.
 
 [⇧ Back to top](#contents)
 
@@ -241,22 +233,144 @@ If you are confused about the different variables (i.e. `short_desc: String!`) p
 &nbsp; <!--extra spacing-->
 &nbsp; <!--extra spacing-->
 
-## 2. Defining Schema
-In order to use graphQL, a schema must be defined for queries and mutations to be called. 
+## 2. GraphQL Server
+
+A Client will make calls to one single endpoint on the GraphQL server. The default endpoint is `<current_website_url>/graphql`, but this can be changed.
+
+In order for GraphQL to figure out where data is store and what to return, a schema must be defined. The schema tells GraphQL what kind of information is stored, where to look (database, api, etc), and what to return.
+
+The statements on the GraphQL server use two libraries: `graphql` and `graphql-tools`.
+
+###Defining Schema
+
+There are few ways to define a schema for GraphQL. The easiest way to implement a schema is to use `graphql-tools`. Currently the project does not implement graphql tools but will shortly.
 
 The `schema.js` must at least have: 
 
 ```javscript
-const schema = new GraphQLSchema({
- query: QueryRoot,
- mutation: MutationRoot
-});
+import { makeExecutableSchema } from 'graphql-tools';
 
-export default schema;
+export const schema = makeExecutableSchema({
+  typeDefs,
+  resolvers,
+});
 ```
 
-`QueryRoot` and `MutationRoot` are two schemas needed to define in order to fetch, insert, and alter information.
+The `typeDefs` are the defined objects for our GraphQL (aka `user` and `submissions` as seen in earlier examples). [Type defintions](#defining-types) and [resolvers](#definig-resolvers) must be passed into `makeExecutableSchema()` in order to retrieve and manipulate data.
 
-You'll notice that we have `QueryRoot` and `MutationRoot` which are two schemas you'll need to define in order to 
+[⇧ Back to top](#contents)
 
-Remember, `query` in graphQL is for retrieving data whereas `mutation` is for manipulating data. The syntax for both is the same when constructing GraphQL.
+&nbsp; <!--extra spacing-->
+
+### Defining Types
+
+Below, two objects or `types` are defined under the typeDefs constants:
+
+```javascript
+const typeDefs = `
+  type User {
+    id: ID!
+    username: String
+    first_name: String
+    last_name: String
+  }
+  type Submission {
+  	id: ID!
+  	author: User
+  	title: String!
+  	short_description: String!
+  	upvotes: Int
+  	downvotes: Int
+  }
+`;
+```
+
+The `ID!` field in both User and Submissions is a GraphQL scalar type that represents a unique identifier. 
+
+A field may also refer to another type. For example, under `type Submission`, author is a `User`. This is the equivalent to a submissions table to containing a `user_id` that connects to the users table in a mySQL database.
+
+The `makeExecutableSchema()` shown in [Defining Schema](#defining-schema) will translate the above type definitions into schema that is recognizable to GraphQL.
+
+[⇧ Back to top](#contents)
+
+&nbsp; <!--extra spacing-->
+
+###Defining Resolvers
+
+Resolvers in our GraphQL server are functions that are called through queries. Resolvers do most of the work as they point the server where to retrieve the data from (API or database) and what to do with the information. Resolvers can also return Promises as well.
+
+With `graphql-tools`, resolvers are defined separately from the type definitions. Each resolver follows a basic format:
+
+```javascript
+Type {
+ field(obj, args, context, info) {
+    // ...actions...
+    return result;
+ }
+}
+```
+* `Type` is the defined type (`User` or `Submission`)
+* `field` refers to the associated field a GraphQL statment will call on (either in nested situations or in the Query statement) 
+	* `user` in `Submission` or `submission` in `User`
+* `obj` contains the result returned from the resolver on the parent field. This allows for nested queries. 
+	* For example, if the Client side needs a query that will return all submissions that one user sumbitted, the beginning statement would look like: `submissions: (user) { ... }`* `args` is any arguments in the form of an object passed into the query / mutation statment
+* `context` may contain information about the following:
+	* authentication
+	* dataloaders
+	* additional information regarding resolving the query
+* `info` is not used often, but has information about execution state
+
+[⇧ Back to top](#contents)
+
+&nbsp; <!--extra spacing-->
+
+#### Query Resolvers
+
+An example of implementating query resolvers would look like this:
+
+```javascript
+const resolvers = {
+  Query: {
+    submissions: () => submissions,
+    author: (_, args) => find(authors, { id: args.id }),
+  },
+  User: {
+    submissions: (user) => filter(submissions, { author_id: user.id }
+  },
+  Submission: {
+    author: (submission) => find(authors, { id: submission.id }),
+  }
+};
+```
+(Regarding the `find(authors, { id: submission.id })` syntax, this largely depends on the ORM that you use. Example wise, this is ignored and up to you).
+
+So what is the `Query` type? The `Query` type is used to indicate what can be called upon in a query statement. The submissions field in the User type can be called on in a nested query.
+
+For example:
+
+```sql
+query {
+	author(id: "902") {
+	  first_name
+	  last_name
+	}
+}
+```
+```
+query {
+  User {
+    submissions {
+      title
+    }	
+  }
+}
+```
+
+Keep in mind that if a **null** or **undefined** value gets returned in the above statement, it means that the object was never found. The schema associations must be fixed. Whereas if an empty object or array is returned, it simply means there is no data but the object was found.
+
+
+[⇧ Back to top](#contents)
+
+&nbsp; <!--extra spacing-->
+
+#### Mutation Resolvers
