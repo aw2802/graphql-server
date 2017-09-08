@@ -241,7 +241,7 @@ In order for GraphQL to figure out where data is store and what to return, a sch
 
 The statements on the GraphQL server use two libraries: `graphql` and `graphql-tools`.
 
-###Defining Schema
+### Defining Schema
 
 There are few ways to define a schema for GraphQL. The easiest way to implement a schema is to use `graphql-tools`. Currently the project does not implement graphql tools but will shortly.
 
@@ -295,7 +295,7 @@ The `makeExecutableSchema()` shown in [Defining Schema](#defining-schema) will t
 
 &nbsp; <!--extra spacing-->
 
-###Defining Resolvers
+### Defining Resolvers
 
 Resolvers in our GraphQL server are functions that are called through queries. Resolvers do most of the work as they point the server where to retrieve the data from (API or database) and what to do with the information. Resolvers can also return Promises as well.
 
