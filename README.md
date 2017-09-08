@@ -25,7 +25,7 @@ This is a brief(ish) guide to the basics of GraphQL in conjunction with Apollo. 
 	* [Defining Types](#defining-types)
 	* [Defining Resolvers](#defining-resolvers)
 		* [Query Resolvers](#query-resolvers)
-		* [Query Resolvers](#mutation-resolvers)
+		* [Mutation Resolvers](#mutation-resolvers)
 3. [Client Side Code](#client-side-code)
 4. [GraphQL Pros and Cons](#graphql-pros-and-cons)
 	* [Advantages](#advantages)
@@ -129,7 +129,7 @@ If a limit was always required to be passed in, the syntax would look like: `$li
 
 ### Nested Queries (Joins)
 
-It is possible to query multiple tables in a database in GraphQL. The schema for the table must be able to return an associated object (more on this [here]()). If a program required retrieving a user and the last three submissions associated with the user, the query would look like:
+It is possible to query multiple tables in a database in GraphQL. The schema for the table must be able to return an associated object. If a program required retrieving a user and the last three submissions associated with the user, the query would look like:
 
 ```sql
 query userSubmissions {
@@ -339,7 +339,6 @@ query {
 
 Keep in mind that if a **null** or **undefined** value gets returned in the above statement, it means that the object was never found. The schema associations must be fixed. Whereas if an empty object or array is returned, it simply means there is no data but the object was found.
 
-
 [⇧ Back to top](#contents)
 
 &nbsp; <!--extra spacing-->
@@ -388,9 +387,19 @@ mutation CreateSubmission {
 
 ```
 
+[⇧ Back to top](#contents)
+
+&nbsp; <!--extra spacing-->
+&nbsp; <!--extra spacing-->
+
 ## 3. Client Side Code
 
 
+
+[⇧ Back to top](#contents)
+
+&nbsp; <!--extra spacing-->
+&nbsp; <!--extra spacing-->
 
 ## 4. GraphQL Pros and Cons
 
@@ -408,6 +417,10 @@ mutation CreateSubmission {
 * Ability to depreciate data
 	* Fields can be easily depreciated and hidden from tools. And because GraphQL can track which clients are requesting which fields, API developers can reach out to only those clients who are using fields that will be depreciated. 
 
+[⇧ Back to top](#contents)
+
+&nbsp; <!--extra spacing-->
+
 ### Disadvantages
 * No information hiding
 	* Information hiding is prevents certain details of a software component from being accessible to its clients. THis principle grows as the number of developers accessing the API, decreasing dependency among developers. With GraphQL, the developer needs to know the names of the fileds to access and their relations.
@@ -420,6 +433,9 @@ mutation CreateSubmission {
 * File uploads are nonexistent
 	* There is no existing capablity to pass the file as an argument.
 	* Must use REST endpoints (or other means) and separate this functionality from GraphQL 
+
+
+[⇧ Back to top](#contents)
 
 &nbsp; <!--extra spacing-->
 &nbsp; <!--extra spacing-->
@@ -436,4 +452,9 @@ Some additional topics to cover on your own:
 
 * [Subscriptions](http://dev.apollodata.com/tools/graphql-subscriptions/)
 	* New, but now available
-*  	
+*  	ss
+
+
+[⇧ Back to top](#contents)
+
+&nbsp; <!--extra spacing-->
