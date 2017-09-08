@@ -374,3 +374,44 @@ Keep in mind that if a **null** or **undefined** value gets returned in the abov
 &nbsp; <!--extra spacing-->
 
 #### Mutation Resolvers
+
+As always, mutation resolvers are similar to query resolvers. Here's an example of a Mutation Resolver:
+
+```javascript
+const resolvers = {
+  Query: { ... },
+  Mutation: {
+    createSubmission(_, args) => {
+    	const submission = {
+    		id: submissions.length,
+    		author_id: args.author_id,
+    		title: args.title,
+    		short_description: args.short_desc,
+		  	upvotes: (args.upvotes || 0),
+		  	downvotes: (args.downvotes || 0)
+    	};
+    	
+    	submissions.push(submission);
+    	
+    	return submission;
+    }
+  }
+  User: { ... },
+  Submission: {... }
+};
+```
+However the createSubmission is approached, the syntax is still the same as outlined in the Query Resolver. A mutation statement for the above resolver would look like:
+
+```sql
+mutation CreateSubmission {
+  createSubmission(author_id: "902", title: "Am I a true Stark or always a Snow?", short_description: "Exploration of my hertiage") {
+    id
+    title
+    short_descritpion
+    author {
+      first_name
+      last_name
+    }
+  }
+}
+```
