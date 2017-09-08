@@ -28,8 +28,29 @@
 # GraphQL Advantages and Disadvantages
 
 ## Advantages
-## Disadvantages
+* Nothing more, nothing less
+	* GraphQL returns the smallest possible request while REST will generally give more information than requested. 
+* GraphQL schema serves as a "contract" between client and server
+	* The schema is defined into types and fields and can be thought of as a document of all the questions the client can ask the server.
+* Backend doesn't need to account for frontend changes
+	* With REST API's data from the server often needs to be modified when design changes on the frontend, hindering fast development and iterations. With GraphQL, because the backend does not need to be adjusted product iterations are faster on the frontend. 
+* No more versions needed for API
+	* GraphQL is a single evolving version so there is no need for clients to modify anything. 
+* Performance monitoring
+	* GraphQL clients are forced to specify the fields they want returned in a query. This makes it easy to track specific field usage to a client
+* Ability to depreciate data
+	* Fields can be easily depreciated and hidden from tools. And because GraphQL can track which clients are requesting which fields, API developers can reach out to only those clients who are using fields that will be depreciated. 
 
+## Disadvantages
+* No information hiding
+	* Information hiding is prevents certain details of a software component from being accessible to its clients. THis principle grows as the number of developers accessing the API, decreasing dependency among developers. With GraphQL, the developer needs to know the names of the fileds to access and their relations.
+* No versioning
+	* Versioning can be a positive as it notifies developers of changes happening to the API and when to expect those changes. Without versioning, developers will never know if the application might fail due to some breaking change.
+* Safe caching isn't a thing
+	* The burden of caching is left to the developers who have to develop the logic of implementing caching on the application layer. When fields on a response become deprecated, it is again left to developers to figure out how long a client should hold its version of a response in its internal cache.
+* Adds complexity
+	* It's easier to get denial of service attacks with GraphQL with overly complex queries that consumes all resources of the server. With GraphQL it is very easy to query for deep nested relationships such as user -> friends -> friends -> etc. 
+* File uploads are nonexistent
 
 &nbsp; <!--extra spacing-->
 &nbsp; <!--extra spacing-->
